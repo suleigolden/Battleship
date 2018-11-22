@@ -26,9 +26,9 @@ table#gameTable td.gameCell {
   font-size: 18px;
 }
 table#gameTable tbody td {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
 }
 table#gameTable tbody td.gameCell {
   cursor: pointer;

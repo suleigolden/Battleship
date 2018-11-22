@@ -35,6 +35,96 @@
 
     </tbody>
 </table>
+
+<script type="text/javascript">
+    //return element by ID
+    function el(id) {
+      return document.getElementById(id);
+    }
+    //Return Random Number
+    function getRandNum(bottom, top) {
+            return Math.floor( Math.random() * ( 1 + top - bottom ) ) + bottom;
+    }
+    //Get Letter to Number
+    function letterToNumberDataProvider(char){
+        const index = JSON.parse('{"A": "1", "B": "2", "C": "3", "D": "4", "E": "5", "F": "6", "G": "7", "H": "8", "I": "9", "J": "10"}');
+         return index[char];
+    }
+    //Get Number to Letter
+    function numberToLetterDataProvider(num){
+        const index = JSON.parse('{"1": "A", "2": "B", "3": "C", "4": "D", "5": "E", "6": "F", "7": "G", "8": "H", "9": "I", "10": "J"}');
+         return index[num];
+    }
+    //Create L Shape
+    function initialBattleShips_Lshape(){
+        let MAP_X = getRandNum(1, 8);
+        let MAP_Y = getRandNum(1, 7);
+        let currentIdex = MAP_Y;
+        console.log("MAP_X: "+MAP_X);
+        for (let i = 1; i < 5; i++) {
+
+            let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
+            el(indexCell).style.backgroundColor  = "LightSeaGreen";
+           
+            let next = letterToNumberDataProvider(numberToLetterDataProvider(currentIdex));
+            next ++;
+            currentIdex = next;
+            
+        }
+        currentIdex --;
+        console.log("End With: "+numberToLetterDataProvider(currentIdex)+MAP_X);
+        for (let i = 1; i < 3; i++) {
+            MAP_X ++;
+            let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
+            el(indexCell).style.backgroundColor  = "LightSeaGreen";
+        }
+    }
+    //Create I Shape
+    function initialBattleShips_Ishape(){
+        let MAP_X = getRandNum(1, 7);
+        let MAP_Y = getRandNum(1, 7);
+        let currentIdex = MAP_Y;
+        let chekIdex = numberToLetterDataProvider(currentIdex)+MAP_X;
+        chekIdex = el(chekIdex).style.backgroundColor;
+        if(chekIdex == "LightSeaGreen"){
+            initialBattleShips_Ishape();
+        }else{
+            for (let i = 1; i < 5; i++) {
+
+            let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
+            el(indexCell).style.backgroundColor  = "LightSeaGreen";
+           
+            let next = letterToNumberDataProvider(numberToLetterDataProvider(currentIdex));
+            next ++;
+            currentIdex = next;
+            
+            }
+        }
+        
+    }
+     //Create two dot shapes
+    function initialBattleShips_Dshape(){
+        for (let i = 0; i < 2; i++) {
+           
+        let MAP_X = getRandNum(1, 7);
+        let MAP_Y = getRandNum(1, 7);
+        let currentIdex = MAP_Y;
+        let chekIdex = numberToLetterDataProvider(currentIdex)+MAP_X;
+        chekIdex = el(chekIdex).style.backgroundColor;
+        if(chekIdex == "LightSeaGreen"){
+            initialBattleShips_Ishape();
+        }else{
+            let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
+            el(indexCell).style.backgroundColor  = "LightSeaGreen";
+        }
+
+    }
+        
+    }
+    initialBattleShips_Lshape();
+    initialBattleShips_Ishape();
+    initialBattleShips_Dshape();
+</script>
 </div>
     </body>
 </html>
