@@ -45,6 +45,24 @@
     padding: 10px;
     background-color: rgb(83, 175, 19);
 }
+.message_OK {
+  width: 94%;
+  float: left;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #66ff33;
+  text-align: center;
+}
+.message_NO {
+  width: 94%;
+  float: left;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #ffc2c2;
+  text-align: center;
+}
 </style>
     </head>
     <body>
@@ -76,6 +94,7 @@
    <input type="text" placeholder="A0" id="FireThisShip" onkeyup="changeToUpper();" class="inputcontrol">
   <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit">
  </div>
+ <div id="replyMessage"></div>
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 <script type="text/javascript">
     var allShips = [];
@@ -205,15 +224,6 @@ function changeToUpper(){
     el("FireThisShip").value = ship.toUpperCase();
 }
 //fire a Ship
-function fireShipLocate(){
-    // var ship = el("FireThisShip").value;
-    // ship = el(ship.toUpperCase()).style.backgroundColor;
-    //     if(ship == "lightseagreen" || ship == "LightSeaGreen"){
-    //         console.log("You hit a target!");
-    //     }else{
-    //         console.log("Oops! You missed!");
-    //     }
-}
 function fireShip(){
     var ship = el("FireThisShip").value;
     var CSRF_TOKEN = el("_token").value;
@@ -225,6 +235,11 @@ function fireShip(){
     hr.onreadystatechange = function() {
       if(hr.readyState == 4 && hr.status == 200) {
         var return_data = JSON.parse(hr.responseText);
+        if (return_data.status == "OK") {
+            el("replyMessage").innerHTML = return_data.message;
+        }else{
+             el("replyMessage").innerHTML = return_data.message;
+        }
         console.log(return_data);
        }
     }
