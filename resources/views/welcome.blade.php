@@ -37,6 +37,7 @@
 </table>
 
 <script type="text/javascript">
+    var allShips = [];
     //return element by ID
     function el(id) {
       return document.getElementById(id);
@@ -65,7 +66,9 @@
 
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
             el(indexCell).style.backgroundColor  = "LightSeaGreen";
-           
+
+            allShips.push(""+indexCell+"");
+
             let next = letterToNumberDataProvider(numberToLetterDataProvider(currentIdex));
             next ++;
             currentIdex = next;
@@ -77,7 +80,10 @@
             MAP_X ++;
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
             el(indexCell).style.backgroundColor  = "LightSeaGreen";
+
+            allShips.push(""+indexCell+"");
         }
+   
     }
     //Create I Shape
     function initialBattleShips_Ishape(){
@@ -94,6 +100,8 @@
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
             el(indexCell).style.backgroundColor  = "LightSeaGreen";
            
+            allShips.push(""+indexCell+"");
+
             let next = letterToNumberDataProvider(numberToLetterDataProvider(currentIdex));
             next ++;
             currentIdex = next;
@@ -103,28 +111,48 @@
         
     }
      //Create two dot shapes
-    function initialBattleShips_Dshape(){
-        for (let i = 0; i < 2; i++) {
-           
+    function initialBattleShips_Dshape(size = 2){
+        for (let i = 0; i < size; i++) {
+        //let exist = false;
         let MAP_X = getRandNum(1, 7);
         let MAP_Y = getRandNum(1, 7);
         let currentIdex = MAP_Y;
         let chekIdex = numberToLetterDataProvider(currentIdex)+MAP_X;
         chekIdex = el(chekIdex).style.backgroundColor;
-        if(chekIdex == "LightSeaGreen"){
-            initialBattleShips_Ishape();
+        if(chekIdex == "lightseagreen" || chekIdex == "LightSeaGreen"){
+            initialBattleShips_Dshape(1);
         }else{
+
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
             el(indexCell).style.backgroundColor  = "LightSeaGreen";
+
+            allShips.push(""+indexCell+"");
+            
         }
 
-    }
+     }
         
     }
     initialBattleShips_Lshape();
     initialBattleShips_Ishape();
     initialBattleShips_Dshape();
+    console.log(allShips);
 </script>
 </div>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
