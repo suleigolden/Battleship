@@ -104,6 +104,10 @@ class battleshipController extends Controller
 			$message = "<div class='message_NO'>Oops, this target is not on the board.</div>";
 				$status = "NO";
 		}
+		if ($this->checkIfAllShipSink()) {
+			$message = "<div class='message_OK'>Congratulation, you have sink all the ships. GAME OVER!</div>";
+				$status = "OK";
+		}
 
 		$outPut = array('status' => $status,
 						'message' => $message, 
@@ -161,6 +165,16 @@ class battleshipController extends Controller
      	$totalShips --;
      	Session::forget('totalShipsOnBoard');
      	session()->put('totalShipsOnBoard', $totalShips);
+     }
+     //sink all ship is hit
+     public function checkIfAllShipSink()
+     {
+     	$totalShips = Session::get('totalShipsOnBoard');
+     	if ($totalShips < 1) {
+     		return true;
+     	}else{
+     		return false;
+     	}
      }
      //Check if user input is in the OnScreenGrid
 	public static function checkUserInput($input)
