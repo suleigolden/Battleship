@@ -43,6 +43,7 @@ class battleshipController extends Controller
 	//Game Start
 	public function startBattleShip(Request $request)
 	{
+		//Session::forget('allBattleShips');
 		if(Session::has('allBattleShips')){
            // $this->addShipsToCart($request->allShips);
         }else{
@@ -50,7 +51,7 @@ class battleshipController extends Controller
         }
 
 		 $outPut = array('status' => "OK",
-                        'replyResult' => "OK", );
+                        'replyResult' => Session::get('allBattleShips'), );
         return response()->json($outPut);
 	}
 
@@ -60,15 +61,98 @@ class battleshipController extends Controller
 
 	 	$getShips = trim($allShips, ".");
 		$setShips = explode(",", $getShips);
-
+		$totalShips = 0;
         if(Session::has('allBattleShips')){
-            session()->push('allBattleShips', $setShips);
+        	foreach ($setShips as $value) {
+				session()->push('allBattleShips', $value);
+				$totalShips++;
+			}
+            
         }else{
             session()->put('allBattleShips', []);
-            session()->push('allBattleShips', $setShips);
+            foreach ($setShips as $value) {
+				session()->push('allBattleShips', $value);
+				$totalShips++;
+			}
 
         }
+        session()->put('totalShipsOnBoard', $totalShips);
         return true;
      }
-  
+
+     //fire This Ship
+     public function fireThisShipLocation(Request $request)
+     {
+     	$ship = $request->shipLocation;
+     	$allShips = Session::get('allBattleShips');
+		$status = ""; $message= "";
+		if ($this->checkAlreadyHitShip($ship)) {
+			$message = "Oops, you already Hit this location";
+			$status = "NO";
+		}else if($this->hitShip($ship)){
+			$this->sinkShip();
+			$message = "YAAA!..You Hit a target!";
+			$status = "OK";
+		}else{
+			$message = "Oops! You missed!";
+			$status = "NO";
+		}
+
+		$outPut = array('status' => $status.": ".Session::get('totalShipsOnBoard'),
+						'message' => $message, 
+					);
+        return response()->json($outPut);
+     }
+
+     //Check if ship is hit
+     public function hitShip($ship)
+     {
+     	 $status = false;
+       if(Session::has('allBattleShips')){
+            foreach (Session::get('allBattleShips') as $key => $value) {
+                if($value === $ship){
+                     Session::pull('allBattleShips.'.$key); 
+                     $status = true;
+                    break;
+                 }
+             }
+          }
+
+          $this->savealreadyHitShip($ship);
+
+          return $status;
+     }
+
+     //Save already hit Ships and already missed hit to a session variable
+	 public function savealreadyHitShip($ship)
+	 {
+	 	if(Session::has('alreadyHitShips')){
+        	session()->push('alreadyHitShips', $ship); 
+        }else{
+	 	 session()->put('alreadyHitShips', []);
+         session()->push('alreadyHitShips', $ship);
+     }
+        return true;
+     }
+     //Cehck if already hit Ships or already missed hit
+	 public function checkAlreadyHitShip($ship)
+	 {
+	 	 $status = false;
+            foreach (Session::get('alreadyHitShips') as $key => $value) {
+                if($value === $ship){ 
+                     $status = true;
+                    break;
+                 }
+             }
+
+          return $status;
+     }
+  	//sink hit ship
+     public function sinkShip()
+     {
+     	$totalShips = Session::get('totalShipsOnBoard');
+     	$totalShips --;
+     	Session::forget('totalShipsOnBoard');
+     	session()->put('totalShipsOnBoard', $totalShips);
+     }
 }

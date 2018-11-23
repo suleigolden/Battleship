@@ -9,34 +9,8 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
         <link href="css/style.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <?php use App\Http\Controllers\battleshipController;?>
- <div  id="container">
-    <h1 class="title_text">Battle Ship</h1>
-        <table cellpadding="5" cellspacing="5" border="0" id="gameTable">
-            <thead>
-                <tr><td>&nbsp;</td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-            </tr>
-        </thead>
-        <tbody>
- <?php echo battleshipController::createOnScreenGrid(); ?>
-
-    </tbody>
-</table>
-<style type="text/css">
+        <style type="text/css">
 .inputcontrol {
     float: left;
     display: block;
@@ -72,9 +46,35 @@
     background-color: rgb(83, 175, 19);
 }
 </style>
+    </head>
+    <body>
+        <?php use App\Http\Controllers\battleshipController;?>
+ <div  id="container">
+    <h1 class="title_text">Battle Ship</h1>
+        <table cellpadding="5" cellspacing="5" border="0" id="gameTable">
+            <thead>
+                <tr><td>&nbsp;</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+            </tr>
+        </thead>
+        <tbody>
+ <?php echo battleshipController::createOnScreenGrid(); ?>
+
+    </tbody>
+</table>
+
  <div class="action-div">
-   <input type="text" placeholder="A0" class="inputcontrol">
-  <input type="button" value="Fire!" class="btn-submit">
+   <input type="text" placeholder="A0" id="FireThisShip" onkeyup="changeToUpper();" class="inputcontrol">
+  <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit">
  </div>
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 <script type="text/javascript">
@@ -133,7 +133,7 @@
         let currentIdex = MAP_Y;
         let chekIdex = numberToLetterDataProvider(currentIdex)+MAP_X;
         chekIdex = el(chekIdex).style.backgroundColor;
-        if(chekIdex == "LightSeaGreen"){
+        if(chekIdex == "lightseagreen" || chekIdex == "LightSeaGreen"){
             initialBattleShips_Ishape();
         }else{
             for (let i = 1; i < 5; i++) {
@@ -197,7 +197,39 @@ function gameStart(allShips){
     initialBattleShips_Ishape();
     initialBattleShips_Dshape();
     console.log(allShips);
-   gameStart(allShips);
+    gameStart(allShips);
+
+//Change character to upper
+function changeToUpper(){
+    var ship = el("FireThisShip").value;
+    el("FireThisShip").value = ship.toUpperCase();
+}
+//fire a Ship
+function fireShipLocate(){
+    // var ship = el("FireThisShip").value;
+    // ship = el(ship.toUpperCase()).style.backgroundColor;
+    //     if(ship == "lightseagreen" || ship == "LightSeaGreen"){
+    //         console.log("You hit a target!");
+    //     }else{
+    //         console.log("Oops! You missed!");
+    //     }
+}
+function fireShip(){
+    var ship = el("FireThisShip").value;
+    var CSRF_TOKEN = el("_token").value;
+    var vars = "_token="+CSRF_TOKEN+"&shipLocation="+ship;
+    var url = "fireThisShip";
+    var hr = new XMLHttpRequest();
+    hr.open("POST", url, true);
+    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    hr.onreadystatechange = function() {
+      if(hr.readyState == 4 && hr.status == 200) {
+        var return_data = JSON.parse(hr.responseText);
+        console.log(return_data);
+       }
+    }
+     hr.send(vars); 
+}
 </script>
 </div>
     </body>

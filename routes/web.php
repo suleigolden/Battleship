@@ -16,4 +16,5 @@
 // });
 Route::get('/','battleshipController@battleShip');
 Route::post('/battleShipStart','battleshipController@startBattleShip');
+Route::post('/fireThisShip','battleshipController@fireThisShipLocation');
 
