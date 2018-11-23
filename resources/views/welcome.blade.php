@@ -9,6 +9,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
         <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
@@ -35,6 +36,46 @@
 
     </tbody>
 </table>
+<style type="text/css">
+.inputcontrol {
+    float: left;
+    display: block;
+    width: 50%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    font-size: 27px;
+}
+.btn-submit{
+    float: left;
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    width: 30%;
+    height: 48px;
+    font-size: 27px;
+}
+.btn-submit:hover{
+    cursor: pointer;
+}
+.action-div{
+    width: 94%;
+    float: left;
+    height: auto;
+    padding: 10px;
+    background-color: rgb(83, 175, 19);
+}
+</style>
+ <div class="action-div">
+   <input type="text" placeholder="A0" class="inputcontrol">
+  <input type="button" value="Fire!" class="btn-submit">
+ </div>
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 <script type="text/javascript">
     var allShips = [];

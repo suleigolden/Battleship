@@ -50,29 +50,25 @@ table#gameTable ::selection {
 table#gameTable ::-moz-selection {
   background: transparent;
 }
-.message {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-}
-.message.state_0 {
-  background-color: #ffffb2;
-}
 
-.message.state_2,
-.message.state_false {
-  background-color: #ffc2c2;
-}
-.message.state_true,
-.message.state_3,
-.message.state_4 {
-  background-color: #66ff33;
-}
-.shots {
-  margin-top: 10px;
-}
 .title_text{
 	text-align: center;
+}
+.inputcontrol {
+    display: block;
+    width: 100%;
+    height: 384px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
