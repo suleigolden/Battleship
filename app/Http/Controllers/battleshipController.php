@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 error_reporting(E_ALL);
 error_reporting(E_ERROR);
 
@@ -38,5 +39,36 @@ class battleshipController extends Controller
 		// const MAP_Y = 10;
 		//const L_start = 1; const L_stop = 8;
 	}
+
+	//Game Start
+	public function startBattleShip(Request $request)
+	{
+		if(Session::has('allBattleShips')){
+           // $this->addShipsToCart($request->allShips);
+        }else{
+        	$this->saveOnScreenGridShips($request->allShips);
+        }
+
+		 $outPut = array('status' => "OK",
+                        'replyResult' => "OK", );
+        return response()->json($outPut);
+	}
+
+	//Save all Ships in  a session variable
+	 public function saveOnScreenGridShips($allShips)
+	 {
+
+	 	$getShips = trim($allShips, ".");
+		$setShips = explode(",", $getShips);
+
+        if(Session::has('allBattleShips')){
+            session()->push('allBattleShips', $setShips);
+        }else{
+            session()->put('allBattleShips', []);
+            session()->push('allBattleShips', $setShips);
+
+        }
+        return true;
+     }
   
 }

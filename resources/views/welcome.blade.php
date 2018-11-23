@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>Battle Ship</title>
 
         <!-- Fonts -->
@@ -35,7 +35,7 @@
 
     </tbody>
 </table>
-
+<input type="hidden" id="_token" value="{{ csrf_token() }}">
 <script type="text/javascript">
     var allShips = [];
     //return element by ID
@@ -133,10 +133,30 @@
      }
         
     }
+    
+function gameStart(allShips){
+    var CSRF_TOKEN = el("_token").value;
+    var vars = "_token="+CSRF_TOKEN+"&allShips="+allShips;
+    var url = "battleShipStart";
+    var hr = new XMLHttpRequest();
+    hr.open("POST", url, true);
+    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    hr.onreadystatechange = function() {
+      if(hr.readyState == 4 && hr.status == 200) {
+        var return_data = JSON.parse(hr.responseText);
+        console.log(return_data);
+       }else{
+        //var return_data = JSON.parse(hr.responseText);
+        //console.log("allShips");
+       }
+    }
+     hr.send(vars); 
+}
     initialBattleShips_Lshape();
     initialBattleShips_Ishape();
     initialBattleShips_Dshape();
     console.log(allShips);
+   gameStart(allShips);
 </script>
 </div>
     </body>

@@ -15,4 +15,5 @@
 //     return view('welcome');
 // });
 Route::get('/','battleshipController@battleShip');
+Route::post('/battleShipStart','battleshipController@startBattleShip');
 
