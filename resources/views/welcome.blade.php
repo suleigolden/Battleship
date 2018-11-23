@@ -237,8 +237,12 @@ function fireShip(){
         var return_data = JSON.parse(hr.responseText);
         if (return_data.status == "OK") {
             el("replyMessage").innerHTML = return_data.message;
+            el(ship).style.backgroundColor  = "SpringGreen";
+            el(ship).innerHTML = "✓";
         }else{
              el("replyMessage").innerHTML = return_data.message;
+             el(ship).style.backgroundColor  = "LightPink";
+             el(ship).innerHTML = "X";
         }
         console.log(return_data);
        }
