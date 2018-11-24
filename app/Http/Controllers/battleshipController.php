@@ -85,32 +85,38 @@ class battleshipController extends Controller
      {
      	$ship = $request->shipLocation;
      	$allShips = Session::get('allBattleShips');
-		$status = ""; $message= "";
+		$status = ""; $message= ""; $gameOver = "";
 		if ($this->checkUserInput($ship)) {
 
 			if ($this->checkAlreadyHitShip($ship)) {
 				$message = "<div class='message_NO'>Oops, you already Hit this location</div>";
 				$status = "NO";
+				$gameOver = "On Going";
 			}else if($this->hitShip($ship)){
 				$this->sinkShip();
 				$message = "<div class='message_OK'>YAAA!..You Hit a target!
 							 <br>You have ".Session::get('totalShipsOnBoard')." targets for you to hit in order to sink all the ships</div>";
 				$status = "OK";
+				$gameOver = "On Going";
 			}else{
 				$message = "<div class='message_NO'>Oops! You missed!</div>";
 				$status = "NO";
+				$gameOver = "On Going";
 			}
 		}else{
 			$message = "<div class='message_NO'>Oops, this target is not on the board.</div>";
-				$status = "NO";
+				$status = "NoTarget";
+				$gameOver = "On Going";
 		}
 		if ($this->checkIfAllShipSink()) {
 			$message = "<div class='message_OK'>Congratulation, you have sink all the ships. GAME OVER!</div>";
 				$status = "OK";
+				$gameOver = "OK";
 		}
 
 		$outPut = array('status' => $status,
-						'message' => $message, 
+						'message' => $message,
+						'gameOver' => $gameOver, 
 					);
         return response()->json($outPut);
      }

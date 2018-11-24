@@ -92,7 +92,7 @@
 
  <div class="action-div">
    <input type="text" placeholder="A0" id="FireThisShip" onkeyup="changeToUpper();" class="inputcontrol">
-  <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit">
+  <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit" id="btn-submit">
  </div>
  <div id="replyMessage"></div>
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
@@ -241,9 +241,16 @@ function fireShip(){
             el(ship).innerHTML = "✓";
         }else{
              el("replyMessage").innerHTML = return_data.message;
+             if (return_data.status != "NoTarget") {
              el(ship).style.backgroundColor  = "LightPink";
              el(ship).innerHTML = "X";
+             }
         }
+        if (return_data.gameOver == "OK") {
+            el("btn-submit").style.backgroundColor  = "LightGrey";
+            el("btn-submit").disabled = true;
+        }
+        el("FireThisShip").value = "";
         console.log(return_data);
        }
     }
