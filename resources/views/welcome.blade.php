@@ -64,6 +64,7 @@
   text-align: center;
 }
 </style>
+
     </head>
     <body>
         <?php use App\Http\Controllers\battleshipController;?>
@@ -84,18 +85,18 @@
                 <td>10</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="onScreenGridContent">
  <?php echo battleshipController::createOnScreenGrid(); ?>
 
     </tbody>
 </table>
-
  <div class="action-div">
    <input type="text" placeholder="A0" id="FireThisShip" onkeyup="changeToUpper();" class="inputcontrol">
   <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit" id="btn-submit">
  </div>
  <div id="replyMessage"></div>
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
+
 <script type="text/javascript">
     var allShips = [];
     //return element by ID
@@ -116,6 +117,29 @@
         const index = JSON.parse('{"1": "A", "2": "B", "3": "C", "4": "D", "5": "E", "6": "F", "7": "G", "8": "H", "9": "I", "10": "J"}');
          return index[num];
     }
+    //Load all OnScreenGrid
+function loadOnScreenGrid(){
+    var CSRF_TOKEN = el("_token").value;
+    var vars = "_token="+CSRF_TOKEN;
+    var url = "loadOnScreenGrid";
+    var hr = new XMLHttpRequest();
+    hr.open("GET", url, true);
+    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    hr.onreadystatechange = function() {
+      if(hr.readyState == 4 && hr.status == 200) {
+        var return_data = JSON.parse(hr.responseText);
+        el("onScreenGridContent").innerHTML = return_data;
+        initialBattleShips_Lshape();
+        initialBattleShips_Ishape();
+        initialBattleShips_Dshape();
+        console.log(allShips);
+        gameStart(allShips);
+       }
+    }
+     hr.send(vars); 
+     el("onScreenGridContent").innerHTML = "Loading Ships .......";
+}
+
     //Create L Shape
     function initialBattleShips_Lshape(){
         let MAP_X = getRandNum(1, 8);
@@ -212,11 +236,14 @@ function gameStart(allShips){
     }
      hr.send(vars); 
 }
-    initialBattleShips_Lshape();
-    initialBattleShips_Ishape();
-    initialBattleShips_Dshape();
-    console.log(allShips);
-    gameStart(allShips);
+
+
+    // initialBattleShips_Lshape();
+    // initialBattleShips_Ishape();
+    // initialBattleShips_Dshape();
+    // console.log(allShips);
+    // gameStart(allShips);
+
 
 //Change character to upper
 function changeToUpper(){
@@ -256,6 +283,31 @@ function fireShip(){
     }
      hr.send(vars); 
 }
+ //Restart game warning
+function warningRestart(){
+    var con = confirm("Are you sure you want to Restart The Battle Ship?");
+    if(con != true){
+        return false;
+    }else{
+        loadOnScreenGrid();
+        //window.location = "/";
+    }
+
+}
+//Check page Refresh
+function checkPageRefresh(){
+    if (window.performance) {
+      console.info("window.performance works fine on this browser");
+    }
+      if (performance.navigation.type == 1) {
+        console.info( "This page is Refreshed");
+        warningRestart();
+      } else {
+        console.info( "This page is not Refreshed");
+      }
+}
+loadOnScreenGrid();
+checkPageRefresh();
 </script>
 </div>
     </body>

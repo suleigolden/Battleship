@@ -17,4 +17,5 @@
 Route::get('/','battleshipController@battleShip');
 Route::post('/battleShipStart','battleshipController@startBattleShip');
 Route::post('/fireThisShip','battleshipController@fireThisShipLocation');
+Route::get('/loadOnScreenGrid','battleshipController@ajaxCreateOnScreenGrid');
 
