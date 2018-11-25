@@ -103,7 +103,8 @@
   <input type="button" value="Restart" onclick="restartBattkleShip();" class="btn-restart">
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 
-<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/main_battleShip.js"></script>
+
 </div>
     </body>
 </html>
