@@ -1,3 +1,4 @@
+ 
  var allShips = [];
     //return element by ID
     function el(id) {
