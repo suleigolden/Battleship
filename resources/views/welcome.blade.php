@@ -38,6 +38,11 @@
 .btn-submit:hover{
     cursor: pointer;
 }
+.btn-restart{
+    float: right;
+    color: #000;
+    background-color: #ffffb2;
+}
 .action-div{
     width: 94%;
     float: left;
@@ -95,6 +100,7 @@
   <input type="button" value="Fire!" onclick="fireShip();" class="btn-submit" id="btn-submit">
  </div>
  <div id="replyMessage"></div>
+  <input type="button" value="Restart" onclick="restartBattkleShip();" class="btn-restart">
 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 
 <script type="text/javascript">
@@ -132,7 +138,7 @@ function loadOnScreenGrid(){
         initialBattleShips_Lshape();
         initialBattleShips_Ishape();
         initialBattleShips_Dshape();
-        console.log(allShips);
+        //console.log(allShips);
         gameStart(allShips);
        }
     }
@@ -145,7 +151,7 @@ function loadOnScreenGrid(){
         let MAP_X = getRandNum(1, 8);
         let MAP_Y = getRandNum(1, 7);
         let currentIdex = MAP_Y;
-        console.log("MAP_X: "+MAP_X);
+        //console.log("MAP_X: "+MAP_X);
         for (let i = 1; i < 5; i++) {
 
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
@@ -159,7 +165,7 @@ function loadOnScreenGrid(){
             
         }
         currentIdex --;
-        console.log("End With: "+numberToLetterDataProvider(currentIdex)+MAP_X);
+        //console.log("End With: "+numberToLetterDataProvider(currentIdex)+MAP_X);
         for (let i = 1; i < 3; i++) {
             MAP_X ++;
             let indexCell = numberToLetterDataProvider(currentIdex)+MAP_X;
@@ -228,7 +234,7 @@ function gameStart(allShips){
     hr.onreadystatechange = function() {
       if(hr.readyState == 4 && hr.status == 200) {
         var return_data = JSON.parse(hr.responseText);
-        console.log(return_data);
+        //console.log(return_data);
        }else{
         //var return_data = JSON.parse(hr.responseText);
         //console.log("allShips");
@@ -290,7 +296,6 @@ function warningRestart(){
         return false;
     }else{
         loadOnScreenGrid();
-        //window.location = "/";
     }
 
 }
@@ -305,6 +310,10 @@ function checkPageRefresh(){
       } else {
         console.info( "This page is not Refreshed");
       }
+}
+//Restart Battkle Ship
+function restartBattkleShip(){
+    loadOnScreenGrid();
 }
 loadOnScreenGrid();
 checkPageRefresh();

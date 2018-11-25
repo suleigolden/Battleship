@@ -57,10 +57,18 @@ class battleshipController extends Controller
 		//const L_start = 1; const L_stop = 8;
 	}
 
+	//Restart Battkle Ship
+	public function restartBattkleShip()
+	{
+		Session::forget('allBattleShips');
+		Session::forget('totalShipsOnBoard');
+		Session::forget('alreadyHitShips');
+	}
+	
 	//Game Start
 	public function startBattleShip(Request $request)
 	{
-		//Session::forget('allBattleShips');
+		$this->restartBattkleShip();	
 		if(Session::has('allBattleShips')){
            // $this->addShipsToCart($request->allShips);
         }else{
