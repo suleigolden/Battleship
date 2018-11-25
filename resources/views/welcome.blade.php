@@ -86,7 +86,7 @@
             </tr>
         </thead>
         <tbody id="onScreenGridContent">
- <?php echo battleshipController::createOnScreenGrid(); ?>
+ <?php //echo battleshipController::createOnScreenGrid(); ?>
 
     </tbody>
 </table>
